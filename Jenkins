@@ -1,0 +1,22 @@
+node{
+
+ stage('GIT checkout'){
+ git url: 'Your git repo???'
+
+}
+ stage('Build ')
+    {
+       sh "mvn clean install -f backend"
+     }
+
+  stage('Archive war'){
+       archiveArtifacts "backend/target/*.war"
+   }
+
+ stage('Junit Result'){
+       step([$class: 'JUnitResultArchiver', testResults: 'backend/target/surefire-reports/*.xml'])
+}
+
+
+
+}

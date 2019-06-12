@@ -1,0 +1,73 @@
+<html>
+ <br><br>   
+<body class ="container" id="sectionId">
+<section  class ="container">
+<hr>    
+  <div class="form-group row">  
+      <label class="control-label col-1" for="project">Project:</label>  
+      <div class ="col-5">
+      <input type="text" class="form-control" id="project" disabled placeholder="Choose the Project"   [(ngModel)]="popupProject">
+     </div>
+     <div class="col-3">
+      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#projectModal">Search </button>  
+    </div> 
+  </div>
+  <hr>
+  <br>
+<div class="row">
+    <label class="control-label col-2" for="project"><strong>Sort Task By:</strong></label>
+<div class = "col-2">  
+<button class="btn btn-secondary" (click)="sortFilter('startDate')">Start Date</button> &nbsp;
+</div>  
+<div class = "col-2">  
+<button class="btn btn-secondary" (click)="sortFilter('endDate')">End Date</button> &nbsp;
+</div>
+<div class ="col-2">
+<button class="btn btn-secondary" (click)="sortFilter('priority')">Priority</button> &nbsp;
+</div>  
+<div class ="col-2">
+<button class="btn btn-secondary" (click)="sortFilter('status')">Completed</button> &nbsp;
+</div>  
+</div>
+<hr>
+
+<ul  class= "list-group">
+<li  class = "list-group-item">   
+      
+  <div  class="row col-12" *ngIf = "(data |  task : taskSearch : priorityFrom : priorityTo :startDateSearch :endDateSearch: popupProject|orderUser : order) ?.length == 0">
+  <div class = "col-12" align ="center"><font color ="red" weight="bold">No Records Found</font></div>   
+  </div>
+
+<table *ngIf = "(data |  task : taskSearch : priorityFrom : priorityTo :startDateSearch :endDateSearch: popupProject|orderUser : order) ?.length > 0" class=  "table-responsive table table-striped table-hover table-condensed table-bordered">
+   <thead>
+      <tr>
+          <td>Task</td>
+          <td>Parent Task</td>
+          <td>Priority</td>
+          <td>Start</td>
+          <td>End</td>    
+          <td></td>   
+          <td></td>    
+      </tr>
+        
+   </thead>
+         
+      <tr *ngFor="let result of data | task : taskSearch : priorityFrom : priorityTo :startDateSearch :endDateSearch : popupProject| orderUser : order" >
+      <td>{{result.task}}</td>
+      <td>{{result.parentTask.parentTask}}</td>
+      <td>{{result.priority}}</td>
+      <td>{{result.startDate}}</td>
+      <td>{{result.endDate}}</td>
+      <td><a [routerLink]="['/addTask/',result.taskId]">  <button type="button" *ngIf="result.status!='complete'" class="btn btn-primary">Edit</button> </a> </td>
+      <td><button type="button" class="btn btn-primary"   (click)="endTask(result)" *ngIf ="result.status!='complete'"> End Task</button>
+      </td> 
+    </tr>
+</table>
+</li>
+</ul>
+</section>
+<br>
+</body>
+<br>
+</html>
+

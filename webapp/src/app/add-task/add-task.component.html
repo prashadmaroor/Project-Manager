@@ -1,0 +1,115 @@
+<html>
+<br><br>   
+<body class ="container" id="sectionId">
+<section  class ="container">
+<div class = "col-6" style="text-align:center; margin-left:20%;">
+  <font color ="red"> <strong>Fields marked with * are mandatory if enabled</strong></font>
+</div>
+
+<form class="form-vertical" [formGroup]="addTaskForm" (ngSubmit)="formHandler()" novalidate> 
+ 
+  <div class="form-group">  
+      <input type="string" formControlName="taskId" class="form-control" id="taskId" hidden>
+  </div>
+
+
+  <label class="control-label col-2" for="project"><strong>Project:</strong></label>      
+  <div class="form-group row">  
+      <div class ="col-6">
+      <input type="string" formControlName="project" class="form-control" id="user" placeholder="Choose the Project" disabled  [(ngModel)]="popupProject">
+     </div>
+     <div class="col-6">
+      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#projectModal">Search </button>  
+    </div> 
+  </div>
+  <br>
+
+  <div class="form-group row">  
+   <label class="control-label col-12" for="task"><strong>Task:*</strong></label>
+    <div class="col-6" [ngClass]="{'has-error': addTaskForm.controls.task.invalid && addTaskForm.controls.task.dirty,
+                                      'has-success': addTaskForm.controls.task.valid  && addTaskForm.controls.task.dirty }"  >
+              <input type="string" formControlName="task" class="form-control" id="task" placeholder="Enter the name of the task">
+              </div>  
+              <div class="alert-danger col-sm-4" *ngIf="addTaskForm.controls.task.invalid && addTaskForm.controls.task.dirty"> 
+                  Task field can contain only Alphanumeric Value 
+              </div> 
+          </div>     
+<br>
+   <div class="form-group row">  
+     
+    <div class="col-6">
+        <div class="input-group input-group-sm">
+            <input type="checkbox" id="enableCheckbox" value="0" (change)="toggleCheckBoxValue()"  [checked]="isDisabled" />
+            <label class="checkbox-inline" id="enableCheckbox" for="enableCheckbox">&nbsp;<strong> Set Parent Task</strong></label>
+          </div>
+      </div>
+   </div>
+   <br>
+   <label class="control-label col-12" for="parentTask"><strong>Parent Task:</strong></label>      
+  <div class="form-group row">  
+      <div class ="col-6">
+      <input type="string" formControlName="parentTask" class="form-control" id="user" placeholder="Choose the Parent Task" disabled  [(ngModel)]="parentTask">
+     </div>
+     <div class="col-6">
+      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#taskModal" *ngIf= "!isDisabled">Search </button>  
+    </div> 
+  </div>
+  <br>
+      
+      <div class="form-group row">  
+                  <label class="control-label col-12" for="priority"><strong>Priority:*</strong></label>
+                  <div class="col-7" [ngClass]="{'has-error': addTaskForm.controls.priority.invalid && addTaskForm.controls.priority.dirty,
+                                          'has-success': addTaskForm.controls.priority.valid  && addTaskForm.controls.priority.dirty }"  >
+                  <strong><output id = "put"></output></strong>
+                  <br>
+                  <input type="range"  min="0" max="30" value="0" step ="1" #priority (change)="setOutput(priority)" formControlName="priority" class="form-control" id="priority" >
+                 
+              </div>  
+          </div>   
+
+
+
+  
+          <div class="form-group row">  
+                  <label class="control-label col-12" for="task"><strong>Start Date*</strong></label>
+                  <div class="col-6" [ngClass]="{'has-error': addTaskForm.controls.startDate.invalid && addTaskForm.controls.startDate.dirty,
+                                          'has-success': addTaskForm.controls.startDate.valid  && addTaskForm.controls.startDate.dirty }"  >
+                  <input type="text" onkeydown="return false" bsDatepicker formControlName="startDate" class="form-control" id="startDate" placeholder="Enter Start Date">
+                  </div>  
+          </div>   
+ 
+          
+   <div class="form-group row">  
+              <label class="control-label col-12" for="task"><strong>End Date*</strong></label>
+              <div class="col-6" [ngClass]="{'has-error': addTaskForm.controls.endDate.invalid && addTaskForm.controls.endDate.dirty,
+                                      'has-success': addTaskForm.controls.endDate.valid  && addTaskForm.controls.endDate.dirty }"  >
+              <input type="text" onkeydown="return false" bsDatepicker formControlName="endDate" class="form-control" id="endDate" placeholder="Enter end Date">
+              </div>  
+          </div>   
+
+  <label class="control-label col-12" for="user"><strong>User:*</strong> </label>      
+  <div class="form-group row">  
+      <div class ="col-6">
+      <input type="string" formControlName="user" class="form-control" id="user" placeholder="Choose the User" disabled [(ngModel)]="popupManager">
+     </div>
+     <div class="col-4">
+      <button type="button" id="userButton" class="btn btn-primary" data-toggle="modal" data-target="#userModal" *ngIf= "!isDisabled">Search </button>  
+    </div> 
+  </div>
+
+ <br>
+ <div class="col-sm-offset-3 col-sm-2 col-md-6">
+   <button type="submit" class = "btn btn-success" [disabled]="addTaskForm.status =='INVALID'" >                       
+    {{buttonValue}}</button>
+    &nbsp;
+   <button type="reset" (click)="resetForm()" class="btn btn-danger">Reset</button>
+  </div>
+  </form>
+
+<br> <br> <br>
+  
+</section>
+</body>
+<br>
+{{addTaskForm.controls.value  | json}}
+</html>
